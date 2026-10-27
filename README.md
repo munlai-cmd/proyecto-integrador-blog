@@ -105,3 +105,27 @@ Node Exporter y comprueba la disponibilidad de los objetivos
 configurados en Prometheus. No realiza por sí sola una prueba HTTP
 de WordPress ni una comprobación detallada del funcionamiento
 interno de MariaDB.
+
+## Monitoreo HTTP con Blackbox Exporter
+
+El proyecto utiliza Blackbox Exporter para comprobar periódicamente la disponibilidad HTTP de WordPress. Prometheus consulta el resultado de las pruebas y Grafana permite visualizar el estado del servicio.
+
+Componentes de monitoreo:
+- Prometheus: recopila y almacena las métricas.
+- Node Exporter: expone métricas del sistema operativo Ubuntu.
+- Blackbox Exporter: realiza pruebas HTTP al servicio WordPress.
+- Grafana: presenta métricas y paneles de monitoreo.
+
+La configuración del monitor HTTP se encuentra en:
+- `blackbox/blackbox.yml`
+- `prometheus/prometheus.yml`
+
+La métrica `probe_success` indica el resultado de la prueba HTTP:
+- `1`: la prueba se considera exitosa.
+- `0`: la prueba falló.
+
+La disponibilidad puede consultarse en Grafana mediante la consulta:
+
+`probe_success{job="wordpress_http", instance="http://blog_wordpress"}`
+
+El nombre `blog_wordpress` corresponde a una dirección interna de la red Docker; para acceder al sitio desde el navegador del equipo anfitrión se utiliza `http://localhost:8080`.
