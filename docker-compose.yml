@@ -60,6 +60,17 @@ services:
     networks:
       - blog_net
 
+  blackbox_exporter:
+    image: prom/blackbox-exporter:latest
+    container_name: blog_blackbox_exporter
+    restart: unless-stopped
+    ports:
+      - "9115:9115"
+    volumes:
+      - ./blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+    networks:
+      - blog_net
+
   grafana:
     image: grafana/grafana:latest
     container_name: blog_grafana
