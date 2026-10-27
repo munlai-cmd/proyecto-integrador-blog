@@ -76,3 +76,32 @@ ni en la documentación entregada.
 - Ejecución del script de verificación.
 - Reinicio de los contenedores.
 - Ejecución del script de despliegue.
+## 12. Recuperación y mantenimiento
+
+Para iniciar o recuperar los servicios definidos en Docker Compose:
+
+    ./scripts/deploy.sh
+
+Para consultar el estado de los contenedores:
+
+    ./scripts/verificar.sh
+
+Para consultar los registros de un servicio:
+
+    sudo docker compose logs --tail=50 wordpress
+
+Para reiniciar todos los servicios:
+
+    sudo docker compose restart
+
+Los datos persistentes se conservan en los volúmenes de Docker.
+No eliminar los volúmenes al realizar tareas de mantenimiento,
+ya que contienen los datos de la aplicación y la monitorización.
+
+## 13. Limitaciones
+
+La monitorización actual recopila métricas del sistema mediante
+Node Exporter y comprueba la disponibilidad de los objetivos
+configurados en Prometheus. No realiza por sí sola una prueba HTTP
+de WordPress ni una comprobación detallada del funcionamiento
+interno de MariaDB.
